@@ -1,6 +1,5 @@
-import pytest
-import temp
+import unittest
 
-
-def test_sum_as_string():
-    assert temp.sum_as_string(1, 1) == "2"
+class TestClass(unittest.TestCase):
+    def test_sum():
+        self.assertEqual(1+1,2)

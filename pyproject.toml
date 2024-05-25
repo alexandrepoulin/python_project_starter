@@ -16,7 +16,7 @@ authors = [{"name" = "Alexandre Poulin"}]
 description = "WRITE A DESCRIPTION"
 dynamic = ["version"]
 license = {"file" = "LICENSE"}
-name = "project_starter"
+name = "$MYPROJECT"
 readme = {file = "README.md", content-type = "text/markdown"}
 
 dependencies = [
@@ -40,7 +40,7 @@ dev = [
 ]
 
 [project.scripts]
-project_starter = "python.project_starter:__main__.py"
+$MYPROJECT = "python.$MYPROJECT:__main__.py"
 
 [tool.ruff]
 exclude = [".venv"]
