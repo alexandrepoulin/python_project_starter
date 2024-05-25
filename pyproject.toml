@@ -1,0 +1,52 @@
+[build-system]
+requires = ["maturin>=1.5,<2.0"]
+build-backend = "maturin"
+
+[tool.setuptools.dynamic]
+readme = {file = ["README.md"]}
+
+[tool.setuptools.packages]
+find = {}
+
+[tool.setuptools_scm]
+fallback_version = "0.0.0-dev"
+
+[project]
+authors = [{"name" = "Alexandre Poulin"}]
+description = "WRITE A DESCRIPTION"
+dynamic = ["version"]
+license = {"file" = "LICENSE"}
+name = "project_starter"
+readme = {file = "README.md", content-type = "text/markdown"}
+
+dependencies = [
+  "pydantic~=2.0",
+  "pydantic-settings",
+]
+
+[project.optional-dependencies]
+dev = [
+  "build",
+  "dapperdata",
+  "glom",
+  "mypy",
+  "pytest",
+  "pytest-cov",
+  "pytest-pretty",
+  "ruamel.yaml",
+  "ruff",
+  "toml-sort",
+  "maturin",
+]
+
+[project.scripts]
+project_starter = "python.project_starter:__main__.py"
+
+[tool.ruff]
+exclude = [".venv"]
+line-length = 120
+
+
+[tool.maturin]
+python-source = "python"
+features = ["pyo3/extension-module"]
