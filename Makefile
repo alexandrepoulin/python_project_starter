@@ -24,10 +24,10 @@ PYTHON_DEPS := $(PACKAGE_CHECK)
 #
 
 .PHONY: env
-env: .venv pip
+env: .venv pip sandbox
 
 .venv:
-	
+	python3 -m venv .venv
 	$(PYTHON) -m pip install maturin
 	
 .PHONY: pip
@@ -80,3 +80,7 @@ test:
 .PHONY: build
 build: $(PACKAGE_CHECK)
 	$(PYTHON) -m build
+
+.PHONY: rust
+rust:
+	$(PYTHON_ENV) maturin develop
