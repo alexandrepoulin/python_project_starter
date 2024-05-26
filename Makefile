@@ -47,7 +47,7 @@ black_fixes:
 
 .PHONY: mypy
 mypy:
-	$(PYTHON) -m mypy python/*
+	$(PYTHON) -m mypy src/*
 
 .PHONY: ruff_fixes
 ruff_fixes:
