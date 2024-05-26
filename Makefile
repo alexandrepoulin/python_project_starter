@@ -27,7 +27,7 @@ PYTHON_DEPS := $(PACKAGE_CHECK)
 env: .venv pip
 
 .venv:
-	python -m venv .venv
+	
 	$(PYTHON) -m pip install maturin
 	
 .PHONY: pip
@@ -69,7 +69,9 @@ tomlsort_fixes:
 
 .PHONY: test
 test:
-	$(PYTHON) -m coverage run -m unittest ./src
+	$(PYTHON) -m coverage run --branch --source src -m unittest discover
+	@$(PYTHON) -m coverage report -m
+
 
 #
 # Packaging
