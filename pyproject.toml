@@ -40,7 +40,7 @@ dev = [
 ]
 
 [project.scripts]
-$MYPROJECT = "python.$MYPROJECT:__main__.py"
+$MYPROJECT = "src.$MYPROJECT:__main__.py"
 
 [tool.ruff]
 exclude = [".venv"]
@@ -50,3 +50,9 @@ line-length = 120
 [tool.maturin]
 python-source = "python"
 features = ["pyo3/extension-module"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+exclude = [
+]

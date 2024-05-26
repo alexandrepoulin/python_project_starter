@@ -19,40 +19,39 @@ endif
 PACKAGE_CHECK:=$(PYTHON_PACKAGE_PATH)/build
 PYTHON_DEPS := $(PACKAGE_CHECK)
 
+#
+# Make the environement
+#
 
-.PHONY: all
-all: $(PACKAGE_CHECK)
+.PHONY: env
+env: .venv pip
 
 .venv:
 	python -m venv .venv
 	$(PYTHON) -m pip install maturin
 	
-
 .PHONY: pip
 pip: $(PYTHON_VENV)
 	$(PYTHON) -m pip install -e .[dev]
-
-$(PACKAGE_CHECK): $(PYTHON_VENV)
-	$(PYTHON) -m pip install -e .[dev]
-
-.PHONY: pre-commit
-pre-commit:
-	pre-commit install
 
 #
 # Formatting
 #
 
-.PHONY: chores
-chores: ruff_fixes black_fixes dapperdata_fixes tomlsort_fixes
-
-.PHONY: ruff_fixes
-ruff_fixes:
-	$(PYTHON) -m ruff check . --fix
+.PHONY: check
+check: ruff_fixes mypy black_fixes dapperdata_fixes tomlsort_fixes
 
 .PHONY: black_fixes
 black_fixes:
 	$(PYTHON) -m ruff format .
+
+.PHONY: mypy
+mypy:
+	$(PYTHON) -m mypy python/*
+
+.PHONY: ruff_fixes
+ruff_fixes:
+	$(PYTHON) -m ruff check . --fix
 
 .PHONY: dapperdata_fixes
 dapperdata_fixes:
@@ -62,41 +61,15 @@ dapperdata_fixes:
 tomlsort_fixes:
 	$(PYTHON_ENV) toml-sort $$(find . -not -path "./.venv/*" -name "*.toml") -i
 
+
 #
 # Testing
 #
 
-.PHONY: tests
-tests: install pytest ruff_check black_check mypy_check dapperdata_check tomlsort_check paracelsus_check
 
-.PHONY: pytest
-pytest:
-	$(PYTHON) -m pytest --cov=./${PACKAGE_SLUG} --cov-report=term-missing tests
-
-.PHONY: pytest_loud
-pytest_loud:
-	$(PYTHON) -m pytest -s --cov=./${PACKAGE_SLUG} --cov-report=term-missing tests
-
-.PHONY: ruff_check
-ruff_check:
-	$(PYTHON) -m ruff check
-
-.PHONY: black_check
-black_check:
-	$(PYTHON) -m ruff format . --check
-
-.PHONY: mypy_check
-mypy_check:
-	$(PYTHON) -m mypy ${PACKAGE_SLUG}
-
-.PHONY: dapperdata_check
-dapperdata_check:
-	$(PYTHON) -m dapperdata.cli pretty .
-
-.PHONY: tomlsort_check
-tomlsort_check:
-	$(PYTHON_ENV) toml-sort $$(find . -not -path "./.venv/*" -name "*.toml") --check
-
+.PHONY: test
+test:
+	$(PYTHON) -m coverage run -m unittest ./src
 
 #
 # Packaging
