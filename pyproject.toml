@@ -36,7 +36,7 @@ dev = [
 ]
 
 [project.scripts]
-my_project = "$MYPROJECT.__main__:main"
+$MYPROJECT = "$MYPROJECT.__main__:main"
 
 [tool.ruff]
 exclude = [".venv"]
