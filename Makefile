@@ -84,3 +84,9 @@ build: $(PACKAGE_CHECK)
 .PHONY: rust
 rust:
 	$(PYTHON_ENV) maturin develop
+
+.PHONY: release
+release:
+	rm -rf rust/target/wheels/*.whl
+	$(PYTHON_ENV) maturin build -r
+	$(PYTHON) -m pip install rust/rust/target/wheels/*.whl
