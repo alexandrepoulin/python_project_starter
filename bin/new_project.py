@@ -15,7 +15,7 @@ def validate_name(name:str) -> None:
         sys.exit(1)
 
 def create_project(name: str) -> None:
-    os.system(f"git clone ~/projects/project_starter {name}")
+    os.system(f"git clone https://github.com/alexandrepoulin/python_project_starter {name}")
     os.chdir(name)
     os.system("git remote remove origin")
     os.system(f"sed -i 's/$MYPROJECT/{name}/g' pyproject.toml")
@@ -28,7 +28,7 @@ def create_project(name: str) -> None:
 def main():
     parser = argparse.ArgumentParser(
                     prog='new_project',
-                    description='Create a new project from the template',
+                    description='Create a new project with from the template project_name in the current directory',
                 )
     parser.add_argument("project_name", type=str, help='Name of the project')
     args = parser.parse_args()
