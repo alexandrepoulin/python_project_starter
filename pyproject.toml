@@ -42,6 +42,20 @@ $MYPROJECT = "$MYPROJECT.__main__:main"
 exclude = [".venv"]
 line-length = 120
 
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+  "D203", # or "D211", pick ONE style and ignore the other
+  "D213", # or "D212", pick ONE style and ignore the other
+  "COM812", # conflicts with the formatter
+  "TRY003", # ignore needing to assign a variable for Exceptions
+  "EM101",
+  "PLR0913", # ignore too many arguments in a function
+  "TD003", # ignore a TODO needing a ticket
+  "TD002", # ignore needing an author name on todos
+  "FIX002" # ignore TODOs
+]
+
 
 [tool.maturin]
 python-source = "src"

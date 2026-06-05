@@ -14,12 +14,18 @@ def validate_name(name:str) -> None:
         print(f"{name} already exists!")
         sys.exit(1)
 
-def create_project(name: str) -> None:
+def create_project(name: str, use_rust: bool) -> None:
     os.system(f"git clone https://github.com/alexandrepoulin/python_project_starter {name}")
     os.chdir(name)
     os.system("git remote remove origin")
+    if use_rust:
+        os.system(f"sed -i 's/$MYPROJECT/{name}/g' rust/Cargo.toml")
+        os.system("rm pyproject_norust.toml")
+    else:
+        os.system("rm pyproject.toml")
+        os.system("rm -rf rust")
+        os.system("mv pyproject_norust.toml pyproject.toml")
     os.system(f"sed -i 's/$MYPROJECT/{name}/g' pyproject.toml")
-    os.system(f"sed -i 's/$MYPROJECT/{name}/g' rust/Cargo.toml")
     os.system(f"sed -i 's/$MYPROJECT/{name}/g' tests/test_all.py")
     os.system(f"sed -i 's/$MYPROJECT/{name}/g' src/project_starter/__main__.py")
     os.rename("src/project_starter",f"src/{name}")
@@ -31,11 +37,11 @@ def main():
                     description='Create a new project with from the template project_name in the current directory',
                 )
     parser.add_argument("project_name", type=str, help='Name of the project')
+    parser.add_argument("-r", "--rust", action='store_true', help='Create a maturin based project for to use Rust')
     args = parser.parse_args()
     name = args.project_name
     validate_name(name)
-    create_project(name)
-    
+    create_project(name, args.rust)
     
     return 0
 
